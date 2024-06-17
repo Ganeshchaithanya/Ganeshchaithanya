@@ -1,0 +1,42 @@
+- import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample dataset
+data = {
+    'Hour': [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    'Customers': [5, 15, 25, 40, 50, 45, 30, 25, 35, 40, 20, 10]
+}
+
+# Create a DataFrame
+df = pd.DataFrame(data)
+
+# Calculate mean and variance
+mean_customers = np.mean(df['Customers'])
+variance_customers = np.var(df['Customers'], ddof=1)  # ddof=1 for sample variance
+
+print(f"Mean number of customers per hour: {mean_customers}")
+print(f"Variance in the number of customers per hour: {variance_customers}")
+
+# Plot the data
+plt.figure(figsize=(10, 6))
+plt.plot(df['Hour'], df['Customers'], marker='o', linestyle='-')
+plt.title('Number of Customers Visiting the Store Per Hour')
+plt.xlabel('Hour of the Day')
+plt.ylabel('Number of Customers')
+plt.grid(True)
+plt.show()
+
+# Visualize mean and variance
+plt.figure(figsize=(10, 6))
+plt.axhline(mean_customers, color='r', linestyle='--', label=f'Mean: {mean_customers:.2f}')
+plt.plot(df['Hour'], df['Customers'], marker='o', linestyle='-', label='Customers')
+plt.fill_between(df['Hour'], mean_customers - np.sqrt(variance_customers), 
+                 mean_customers + np.sqrt(variance_customers), color='b', alpha=0.1, 
+                 label=f'Variance Range: ±{np.sqrt(variance_customers):.2f}')
+plt.title('Customer Visits with Mean and Variance')
+plt.xlabel('Hour of the Day')
+plt.ylabel('Number of Customers')
+plt.legend()
+plt.grid(True)
+plt.show()
